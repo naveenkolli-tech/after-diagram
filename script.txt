@@ -1,0 +1,265 @@
+// ======================================================
+// Secure & Cost-Optimized AWS Cloud-Native Microservices
+// Platform Architecture (Eraser Diagram Script)
+// ======================================================
+
+title Secure & Cost-Optimized AWS Cloud-Native Microservices Platform
+
+// ======================================================
+// CLIENTS
+// ======================================================
+Clients [icon: users, label: "Clients"] {
+  Web Client [icon: monitor, label: "Web App"]
+  Mobile Client [icon: mobile, label: "Mobile App"]
+  Partner API Consumer [icon: user, label: "Partner / API Consumer"]
+}
+
+// ======================================================
+// IDENTITY & ACCESS
+// ======================================================
+Identity Access [icon: lock, label: "Identity & Access"] {
+  Partner API Gateway [icon: aws-api-gateway, label: "API Gateway (Partner APIs, Optional)"]
+}
+
+// ======================================================
+// EDGE & SECURITY (PUBLIC ZONE)
+// ======================================================
+Edge Security [icon: shield, label: "Edge & Security", color: orange] {
+  Route 53 [icon: aws-route-53, label: "Amazon Route 53 (DNS)"]
+  AWS WAF [icon: aws-waf, label: "AWS WAF (Web ACL)", color: red]
+  ALB [icon: aws-elb, label: "Application Load Balancer"]
+}
+
+// ======================================================
+// AWS ACCOUNT / NETWORK BOUNDARY
+// ======================================================
+{
+  Amazon VPC [icon: aws-vpc, label: "Amazon VPC (Isolated Network)"] {
+
+    // --------------------------------------------------
+    // PUBLIC SUBNETS (EGRESS & INGRESS)
+    // --------------------------------------------------
+    Public Subnets [icon: globe, label: "Public Subnets"] {
+      Internet Gateway [icon: cloud-off, label: "Internet Gateway"]
+      NAT Gateway [icon: shuffle, label: "NAT Gateway (Egress)"]
+    }
+
+    // --------------------------------------------------
+    // PRIVATE APP SUBNETS (EKS & SERVICES)
+// --------------------------------------------------
+    Private App Subnets [icon: package, label: "Private App Subnets"] {
+      EKS Cluster [icon: k8s-cluster, label: "Amazon EKS Cluster"] {
+
+        // =======================
+        // PLATFORM NAMESPACE
+        // =======================
+        Platform Namespace [icon: package, label: "Platform Namespace (Shared Services)"] {
+          NGINX Ingress Controller [icon: nginx, label: "NGINX Ingress Controller"]
+          FluentBit Logging Agent [icon: feather, label: "FluentBit (Log Forwarder)"]
+          Argo CD [icon: argo, label: "Argo CD (GitOps)"]
+        }
+
+        // =======================
+        // APPLICATION NAMESPACE
+        // =======================
+        Application Namespace [icon: package, label: "Application Namespace (Business Services)"] {
+
+          // ----- Business Microservices -----
+          Micro Services [icon: package, label: "Microservices"] {
+            Loans Transactions Service [icon: credit-card, label: "Loans & Transactions Service"]
+            Payments Service [icon: dollar-sign, label: "Payments Service"]
+            Customer Service [icon: user, label: "Customer Service"]
+            Accounts Service [icon: users, label: "Accounts Service"]
+            Notifications Service [icon: mail, label: "Notifications Service (Email / SMS / Webhooks)"]
+          }
+        }
+
+        // =======================
+        // KUBERNETES SECURITY
+        // =======================
+        K8s Security [icon: shield, label: "Kubernetes Security Controls", color: red] {
+          NetworkPolicies [icon: git-branch, label: "K8s NetworkPolicies (Restrict Pod Traffic)"]
+          Pod Security Standards [icon: shield-off, label: "Pod Security (Restricted / Non-Root)"]
+          IRSA [icon: key, label: "IRSA (IAM Roles for Service Accounts)"]
+        }
+      }
+    }
+
+    // --------------------------------------------------
+    // PRIVATE DATA SUBNETS (PERSISTENCE & EVENTS)
+    // --------------------------------------------------
+    Private Data Subnets [icon: database, label: "Private Data Subnets"] {
+
+      // =======================
+      // DATA & STORAGE LAYER
+      // =======================
+      Data Storage Layer [icon: database, label: "Data Storage Layer", color: green] {
+        RDS PostgreSQL Primary [icon: aws-rds, label: "Amazon RDS PostgreSQL (Primary, Encrypted)"]
+        RDS Read Replicas [icon: aws-rds, label: "RDS PostgreSQL Read Replicas"]
+        DynamoDB [icon: aws-dynamodb, label: "Amazon DynamoDB (NoSQL)"]
+        ElastiCache Redis [icon: aws-elasticache, label: "Amazon ElastiCache (Redis, TLS)"]
+        Amazon S3 [icon: aws-s3, label: "Amazon S3 (Private, Encrypted)"]
+        Amazon ECR [icon: aws-ecr, label: "Amazon ECR (Container Registry)"]
+      }
+
+      // =======================
+      // EVENTS & MESSAGING
+      // =======================
+      Events Messaging [icon: message-square, label: "Events & Messaging"] {
+        Amazon SNS [icon: aws-sns, label: "Amazon SNS (Pub/Sub)"]
+        Amazon SQS [icon: aws-sqs, label: "Amazon SQS (Queues)"]
+        Kafka [icon: kafka, label: "Apache Kafka / MSK"]
+      }
+    }
+  }
+}
+
+// ======================================================
+// OBSERVABILITY & SECURITY (CROSS-CUTTING)
+// ======================================================
+Observability Security [icon: eye, label: "Observability & Security", color: purple] {
+  CloudWatch Logs Metrics [icon: aws-cloudwatch, label: "CloudWatch Logs & Metrics"]
+  CloudWatch Dashboards [icon: layout, label: "CloudWatch Dashboards (Cost-Effective)"]
+  Amazon Managed Grafana [icon: grafana, label: "Amazon Managed Grafana (Optional)"]
+  Prometheus ADOT [icon: prometheus, label: "Prometheus / ADOT Collector"]
+
+  CloudTrail [icon: file-text, label: "AWS CloudTrail (Audit Logs)"]
+  AWS Config [icon: list, label: "AWS Config (Compliance Rules)"]
+
+  Secrets Manager KMS [icon: aws-kms, label: "AWS Secrets Manager + KMS (Rotated Secrets)"]
+  Security Hub GuardDuty [icon: shield, label: "AWS Security Hub / GuardDuty"]
+}
+
+// ======================================================
+// CI/CD & SUPPLY CHAIN SECURITY
+// ======================================================
+CI CD DevOps [icon: workflow, label: "CI/CD & DevSecOps", color: teal] {
+  Git Repository [icon: git-branch, label: "Git Repo (GitHub / GitLab / CodeCommit)"]
+  Git Webhooks [icon: webhook, label: "Git Webhooks"]
+
+  Jenkins Server [icon: jenkins, label: "Jenkins Controller (Private Subnet)"]
+  Jenkins Agents [icon: cpu, label: "Jenkins Build Agents"]
+  Terraform Pipelines [icon: terraform, label: "Terraform (Infrastructure-as-Code)"]
+  Docker Build Stage [icon: docker, label: "Docker Build & Test"]
+
+  Image Scanning [icon: search, label: "Image Scanning (e.g., Trivy / ECR Scan)"]
+  Image Signing [icon: pen-tool, label: "Image Signing (e.g., Cosign)"]
+  Policy as Code [icon: file-check, label: "Policy-as-Code (OPA / Kyverno)"]
+
+  Zena Scheduler [icon: clock, label: "Zena Job Orchestrator"]
+}
+
+// ======================================================
+// CONNECTIONS
+// ======================================================
+
+// ------------------------------------------------------
+// CLIENT TO EDGE PATHS
+// ------------------------------------------------------
+Web Client > Route 53
+Mobile Client > Route 53
+
+Partner API Consumer > Partner API Gateway
+Partner API Gateway > NGINX Ingress Controller
+
+// Public HTTP(S) entry (after DNS -> WAF -> ALB)
+Route 53 > AWS WAF: [color: red]
+AWS WAF > ALB: [color: red]
+
+ALB > NGINX Ingress Controller
+
+// ------------------------------------------------------
+// INGRESS ROUTING IN CLUSTER
+// ------------------------------------------------------
+NGINX Ingress Controller > Application Namespace
+
+// ------------------------------------------------------
+// APP TO DATA (RDS / DYNAMODB / CACHE / S3)
+// ------------------------------------------------------
+Loans Transactions Service > RDS PostgreSQL Primary
+Loans Transactions Service > ElastiCache Redis
+
+Payments Service > RDS PostgreSQL Primary
+
+Customer Service > RDS PostgreSQL Primary
+
+Accounts Service > RDS PostgreSQL Primary
+Accounts Service > RDS Read Replicas
+
+Notifications Service > Amazon S3
+Application Namespace > DynamoDB
+
+// ------------------------------------------------------
+// MESSAGING & EVENTS
+// ------------------------------------------------------
+Application Namespace > Events Messaging
+
+Amazon SNS > Amazon SQS
+Amazon SQS > Kafka
+Notifications Service > Amazon SNS
+
+// ------------------------------------------------------
+// CONTAINER IMAGES & SUPPLY CHAIN
+// ------------------------------------------------------
+Docker Build Stage > Image Scanning
+
+Amazon ECR < Image Scanning
+Amazon ECR < Image Signing
+
+EKS Cluster < Amazon ECR
+EKS Cluster < Policy as Code
+
+// ------------------------------------------------------
+// OBSERVABILITY FLOWS
+// ------------------------------------------------------
+FluentBit Logging Agent > CloudWatch Logs Metrics
+Prometheus ADOT > Amazon Managed Grafana
+Prometheus ADOT > CloudWatch Logs Metrics
+EKS Cluster > CloudWatch Logs Metrics
+
+Amazon VPC > Security Hub GuardDuty
+
+// ------------------------------------------------------
+// SECRETS & IAM (CROSS-CUTTING)
+// ------------------------------------------------------
+EKS Cluster > Secrets Manager KMS
+Data Storage Layer > Secrets Manager KMS
+CI CD DevOps > Secrets Manager KMS
+
+// ------------------------------------------------------
+// NETWORK LAYOUT / EGRESS
+// ------------------------------------------------------
+NAT Gateway > Private App Subnets
+NAT Gateway > Private Data Subnets
+
+// ------------------------------------------------------
+// CI/CD & AUTOMATION FLOWS
+// ------------------------------------------------------
+Git Repository > Git Webhooks
+Git Webhooks > Jenkins Server
+
+Jenkins Server > Jenkins Agents
+Jenkins Agents > Terraform Pipelines
+Jenkins Agents > Docker Build Stage
+
+Zena Scheduler > Jenkins Server
+
+Terraform Pipelines > Observability Security
+Terraform Pipelines > Private Data Subnets
+
+// ------------------------------------------------------
+// INFRA-AS-CODE TARGETS
+// ------------------------------------------------------
+Amazon VPC < Terraform Pipelines
+Data Storage Layer < Terraform Pipelines
+Events Messaging < Terraform Pipelines
+
+// ------------------------------------------------------
+// PLATFORM <-> CI/CD INTEGRATION
+// ------------------------------------------------------
+Platform Namespace > CI CD DevOps
+CI CD DevOps > Platform Namespace
+
+// ======================================================
+// End of diagram
+// ======================================================
