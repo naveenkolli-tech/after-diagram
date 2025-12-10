@@ -254,9 +254,9 @@ Amazon VPC < Terraform Pipelines
 Data Storage Layer < Terraform Pipelines
 Events Messaging < Terraform Pipelines
 
-// ------------------------------------------------------
+// ---------------------------------------------------
 // PLATFORM <-> CI/CD INTEGRATION
-// ------------------------------------------------------
+// ---------------------------------------------------
 Platform Namespace > CI CD DevOps
 CI CD DevOps > Platform Namespace
 
